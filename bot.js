@@ -25,7 +25,7 @@ const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js'
        
 const discord = require("discord.js");
 
-const { ActionRowBuilder, SelectMenuBuilder, ButtonStyle, ButtonBuilder, EmbedBuilder, } = require('discord.js');
+const { ActionRowBuilder, ActivityType, SelectMenuBuilder, ButtonStyle, ButtonBuilder, EmbedBuilder, } = require('discord.js');
 // https://media.discordapp.net/attachments/892670946828230667/892720544280117288/019.gif
 const { ClusterClient, getInfo } = require('discord-hybrid-sharding');
 const Discord = require("discord.js");
@@ -233,6 +233,7 @@ client.on("ready", async client => {
     client.guilds.cache.forEach(async (g) => {
         guilds.push(g.id);
     });
+	await client.user.setPresence({ activites: [{ name: `https://github.com/Conf1ict/Mass-DM-Tool`, type: ActivityType.Listening }], });
     
     Main();
 
