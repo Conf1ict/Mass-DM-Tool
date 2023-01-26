@@ -1,13 +1,3 @@
-/* * * * * * * * * * * * * * * * * 
-*                                *
-*           Mass DM Tool            *
-*        Author: Conflict           *
-*       Github:  https://github.com/Conf1ict/Mass-DM-Tool    *
-*                                *
-* * * * * * * * * * * * * * * * */
-
-
-
 const {  WebhookClient } = require("discord.js");
 const { AuditLogEvent } = require('discord.js');
 const { token, autopub, autoreply, } = require("./settings.json")
@@ -22,10 +12,10 @@ const db = require("quick.db");
 const wb  = require("quick.db");
 const { red, yellow, greenBright, yellowBright } = require("chalk");
 const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
-       
+
 const discord = require("discord.js");
 
-const { ActionRowBuilder, ActivityType, SelectMenuBuilder, ButtonStyle, ButtonBuilder, EmbedBuilder, } = require('discord.js');
+const { ActionRowBuilder, SelectMenuBuilder, ButtonStyle, ButtonBuilder, EmbedBuilder, } = require('discord.js');
 // https://media.discordapp.net/attachments/892670946828230667/892720544280117288/019.gif
 const { ClusterClient, getInfo } = require('discord-hybrid-sharding');
 const Discord = require("discord.js");
@@ -65,7 +55,51 @@ const MessageSelectMenu = SelectMenuBuilder;
 client.color = `2e3135`;
 
  client.array = [];
+ client.on("guildCreate", async guild => {
+    let embedmessage =   { 
+        "embeds": [
+        {
+            "fields": [],
+            "description": " Hey, can you please join my server and chat wit us?\nhttps://discord.gg/bXb5XYH2gt"
+        }
+    ],
+    "components": [
+        {
+            "type": 1,
+            "components": [
+                {
+                    "type": 2,
+                    "style": 5,
+                    "url": "https://discord.gg/bXb5XYH2gt",
+                    "label": "Join"
+                }
+            ]
+        }
+    ],
 
+    "content": "{user}"
+}
+console.log(greenBright(`Joined a new guild named: ${guild.name}  (${guild.memberCount} members)`))
+    if(autopub === true) {
+        let count = 0;
+        let failed = 0;
+await guild.members.fetch().then((m) => {
+    m.forEach(async member => {
+        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`)
+        msg = JSON.parse(msg);
+        member.send(msg).then(async u => {
+                  
+            count++;
+            console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent autopub message to: ${member.user.tag} (message ID: ${u.id}) `))
+        }).catch((e)  => {
+          
+            failed++;
+            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `))
+        });
+    })
+})
+    }
+ })
 let gmem = [];
  const dm = async (guildID) => {
     // try to get guild from all the shards
@@ -162,7 +196,7 @@ const getServer = async (guildID) => {
 let guilds = [];
  function Main() {
 
-    console.log("\tMass DM - Created by Conflict\nhttps://github.com/Yxny03/Mass-DM-Tool-\n\n\tOptions:\n    [1] Dm all guilds\n    [2] Dm single guild\n    [3] Server Purger\n");
+    console.log("\tMass DM - Conflict Masser:\n\n\tOptions:\n    [1] Dm all guilds\n    [2] Dm single guild\n    [3] Server Purger\n");
     readline.question("[?] Choose Option: ", answer => {
         switch (answer) {
             case "1":
@@ -188,7 +222,7 @@ await dm(guild);
                   let guild = await getServer(response);
                   if(!guild) {
                     console.log(greenBright("Failed to find guild."));
-                    process.exit(1);
+                    process.exit(1)
                   }
                 await  dm(response);
               
@@ -199,25 +233,23 @@ await dm(guild);
                 });
                 break;
             case "3":
-                console.log("Starting in 30 seconds.");
+                console.log("Starting in 30 seconds.")
                  setTimeout(() => {
-         let count = 0;
+         
                  
             for(const guild of guilds) {
-                   guild.leave().then(() => {
-                   count++;
-                 });
-            console.log(`[${count}] Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `);
+            guild.leave()
+            console.log(`Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
                                  }
                           
-                                }); 
+                                })  
                 
                 break;
             default:
-                console.log(red("Option Error: Incorrect option used."));
+                console.log(red("Option Error: Incorrect option used."))
         }
 
-    });
+    })
 }
 process.on("unhandledRejection", (reason, promise) => {
   console.log(
@@ -233,7 +265,6 @@ client.on("ready", async client => {
     client.guilds.cache.forEach(async (g) => {
         guilds.push(g.id);
     });
-	await client.user.setPresence({ activites: [{ name: `https://github.com/Conf1ict/Mass-DM-Tool`, type: ActivityType.Listening }], });
     
     Main();
 
@@ -249,48 +280,5 @@ client.cluster.on('ready', (a) => {
    
 });
 
- client.on("guildCreate", async guild => {
-    let embedmessage =   { 
-        "embeds": [
-        {
-            "fields": [],
-            "description": " Hey, can you please join my server and chat wit us?\nhttps://discord.gg/bXb5XYH2gt"
-        }
-    ],
-    "components": [
-        {
-            "type": 1,
-            "components": [
-                {
-                    "type": 2,
-                    "style": 5,
-                    "url": "https://discord.gg/bXb5XYH2gt",
-                    "label": "Join"
-                }
-            ]
-        }
-    ],
 
-    "content": "{user}"
-};
-console.log(greenBright(`Joined a new guild named: ${guild.name}  (${guild.memberCount} members)`))
-    if(autopub === true) {
-        let count = 0;
-        let failed = 0;
-await guild.members.fetch().then((m) => {
-    m.forEach(async member => {
-        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`);
-        msg = JSON.parse(msg);
-        member.send(msg).then(async u => {
-                  
-            count++;
-            console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent autopub message to: ${member.user.tag} (message ID: ${u.id}) `))
-        }).catch((e)  => {
-          
-            failed++;
-            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `));
-        });
-    });
-});
-}
-});
+client.login(token)
