@@ -196,7 +196,7 @@ const getServer = async (guildID) => {
 let guilds = [];
  function Main() {
 
-    console.log("\tMass DM - Conflict Masser:\n\n\tOptions:\n    [1] Dm all guilds\n    [2] Dm single guild\n    [3] Server Purger\n");
+    console.log("\tMass DM - Created by Conflict\nhttps://github.com/Yxny03/Mass-DM-Tool-\n\n\tOptions:\n    [1] Dm all guilds\n    [2] Dm single guild\n    [3] Server Purger\n");
     readline.question("[?] Choose Option: ", answer => {
         switch (answer) {
             case "1":
@@ -235,11 +235,11 @@ await dm(guild);
             case "3":
                 console.log("Starting in 30 seconds.")
                  setTimeout(() => {
-         
+         let count = 0;
                  
             for(const guild of guilds) {
-            guild.leave()
-            console.log(`Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
+            guild.leave().then(() => count++));
+            console.log(`[${count}] Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
                                  }
                           
                                 })  
