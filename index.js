@@ -17,7 +17,7 @@ try {
         })
     )
 
-manager.on('clusterCreate', cluster => console.log(`Launched Cluster ${cluster.id}`));
+manager.on('clusterCreate', cluster => console.log(`Loaded and Launched: ${cluster.id}`));
 manager.spawn({ timeout: -1 });
 } catch (error) {
 console.error(error)
