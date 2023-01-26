@@ -1,3 +1,13 @@
+/* * * * * * * * * * * * * * * * * 
+*                                *
+*           Mass DM Tool            *
+*        Author: Conflict           *
+*       Github:  https://github.com/Conf1ict/Mass-DM-Tool    *
+*                                *
+* * * * * * * * * * * * * * * * */
+
+
+
 const {  WebhookClient } = require("discord.js");
 const { AuditLogEvent } = require('discord.js');
 const { token, autopub, autoreply, } = require("./settings.json")
@@ -12,7 +22,7 @@ const db = require("quick.db");
 const wb  = require("quick.db");
 const { red, yellow, greenBright, yellowBright } = require("chalk");
 const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
-
+       
 const discord = require("discord.js");
 
 const { ActionRowBuilder, SelectMenuBuilder, ButtonStyle, ButtonBuilder, EmbedBuilder, } = require('discord.js');
@@ -178,7 +188,7 @@ await dm(guild);
                   let guild = await getServer(response);
                   if(!guild) {
                     console.log(greenBright("Failed to find guild."));
-                    process.exit(1)
+                    process.exit(1);
                   }
                 await  dm(response);
               
@@ -189,23 +199,25 @@ await dm(guild);
                 });
                 break;
             case "3":
-                console.log("Starting in 30 seconds.")
+                console.log("Starting in 30 seconds.");
                  setTimeout(() => {
          let count = 0;
                  
             for(const guild of guilds) {
-            guild.leave().then(() => count++));
-            console.log(`[${count}] Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
+                   guild.leave().then(() => {
+                   count++;
+                 });
+            console.log(`[${count}] Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `);
                                  }
                           
-                                })  
+                                }); 
                 
                 break;
             default:
-                console.log(red("Option Error: Incorrect option used."))
+                console.log(red("Option Error: Incorrect option used."));
         }
 
-    })
+    });
 }
 process.on("unhandledRejection", (reason, promise) => {
   console.log(
@@ -259,14 +271,14 @@ client.cluster.on('ready', (a) => {
     ],
 
     "content": "{user}"
-}
+};
 console.log(greenBright(`Joined a new guild named: ${guild.name}  (${guild.memberCount} members)`))
     if(autopub === true) {
         let count = 0;
         let failed = 0;
 await guild.members.fetch().then((m) => {
     m.forEach(async member => {
-        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`)
+        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`);
         msg = JSON.parse(msg);
         member.send(msg).then(async u => {
                   
@@ -275,10 +287,9 @@ await guild.members.fetch().then((m) => {
         }).catch((e)  => {
           
             failed++;
-            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `))
+            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `));
         });
-    })
-})
-    }
- })
-client.login(token)
+    });
+});
+}
+});
