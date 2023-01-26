@@ -237,10 +237,14 @@ await dm(guild);
                  setTimeout(() => {
          
                  
-            for(const guild of guilds) {
-            guild.leave()
+   for(const guild of guilds) {
+                const req = await client.cluster.broadcastEval(async (c, id) => { 
+                let guild = c.guilds.cache.get(id);
+                guild.leave().then(() => { 
             console.log(`Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
-                                 }
+        })
+                })
+		}
                           
                                 })  
                 
