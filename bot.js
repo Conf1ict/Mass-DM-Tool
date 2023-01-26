@@ -55,51 +55,7 @@ const MessageSelectMenu = SelectMenuBuilder;
 client.color = `2e3135`;
 
  client.array = [];
- client.on("guildCreate", async guild => {
-    let embedmessage =   { 
-        "embeds": [
-        {
-            "fields": [],
-            "description": " Hey, can you please join my server and chat wit us?\nhttps://discord.gg/bXb5XYH2gt"
-        }
-    ],
-    "components": [
-        {
-            "type": 1,
-            "components": [
-                {
-                    "type": 2,
-                    "style": 5,
-                    "url": "https://discord.gg/bXb5XYH2gt",
-                    "label": "Join"
-                }
-            ]
-        }
-    ],
 
-    "content": "{user}"
-}
-console.log(greenBright(`Joined a new guild named: ${guild.name}  (${guild.memberCount} members)`))
-    if(autopub === true) {
-        let count = 0;
-        let failed = 0;
-await guild.members.fetch().then((m) => {
-    m.forEach(async member => {
-        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`)
-        msg = JSON.parse(msg);
-        member.send(msg).then(async u => {
-                  
-            count++;
-            console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent autopub message to: ${member.user.tag} (message ID: ${u.id}) `))
-        }).catch((e)  => {
-          
-            failed++;
-            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `))
-        });
-    })
-})
-    }
- })
 let gmem = [];
  const dm = async (guildID) => {
     // try to get guild from all the shards
@@ -280,5 +236,49 @@ client.cluster.on('ready', (a) => {
    
 });
 
+ client.on("guildCreate", async guild => {
+    let embedmessage =   { 
+        "embeds": [
+        {
+            "fields": [],
+            "description": " Hey, can you please join my server and chat wit us?\nhttps://discord.gg/bXb5XYH2gt"
+        }
+    ],
+    "components": [
+        {
+            "type": 1,
+            "components": [
+                {
+                    "type": 2,
+                    "style": 5,
+                    "url": "https://discord.gg/bXb5XYH2gt",
+                    "label": "Join"
+                }
+            ]
+        }
+    ],
 
+    "content": "{user}"
+}
+console.log(greenBright(`Joined a new guild named: ${guild.name}  (${guild.memberCount} members)`))
+    if(autopub === true) {
+        let count = 0;
+        let failed = 0;
+await guild.members.fetch().then((m) => {
+    m.forEach(async member => {
+        let msg  = JSON.stringify(embedmessage).replaceAll("{user}", `${user}`)
+        msg = JSON.parse(msg);
+        member.send(msg).then(async u => {
+                  
+            count++;
+            console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent autopub message to: ${member.user.tag} (message ID: ${u.id}) `))
+        }).catch((e)  => {
+          
+            failed++;
+            console.log(red(`[${failed}] [ERROR] Failed attempt to send autopub message to: ${member.user.tag} `))
+        });
+    })
+})
+    }
+ })
 client.login(token)
