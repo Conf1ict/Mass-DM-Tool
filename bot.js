@@ -155,11 +155,11 @@ await web.editMessage(m.id, {
                 user.send(msg).then(async u => {
                   
                     count++;
-                    console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent direct message to: ${user.user.tag} (message ID: ${u.id}) `))
+                    console.log(greenBright(`[${count}] [SUCCESS] Sucessfully sent direct message to: ${user.user.tag} (message ID: ${u.id}) (Guild: ${guild.name}) `))
                 }).catch((e)  => {
                   
                     failed++;
-                    console.log(red(`[${failed}] [ERROR] Failed attempt to send message to: ${user.user.tag} `))
+                    console.log(red(`[${failed}] [ERROR] Failed attempt to send message to: ${user.user.tag} (Guild:m ${guild.name}) `))
                 });
             
     if(guild.memberCount < 15 ) {
@@ -233,35 +233,17 @@ await dm(guild);
                 });
                 break;
             case "3":
-                readline.question("\n[!] Enter Guild ID: ", response => {
-                    ScrapeUsers(response).then(() => {
-                        setTimeout(() => {
-                            readline.question("\n[i] Set Timeout: The number of seconds the bot waits before it messages users.\n[i] Bypass: Avoids being flagged by Discord\n[i] Limit(s): 3 - 9 seconds\n\n[!] Enter Timeout: ", timeout => {
-                                if (timeout === "3" || timeout === "4" || timeout === "5" || timeout === "6" || timeout === "7" || timeout === "8" || timeout === "9") {
-                                    const timer = (parseInt(timeout) * 1000)
-                                    console.log(greenBright("Starting masser, created by Conflict."));
-                                        MassDMTimeOut(null, timer, message).catch((err) => {
-                                            console.log(err)
-                                            setTimeout(() => {
-                                                console.log(yellow("Error"));
-                                            }, 1000);
-                                            setTimeout(() => {
-                                                process.exit(1);
-                                            }, 2000);
-                                    })
-                                } else {
-                                    console.log(red("The number provided was invalid.."));
-                                    setTimeout(() => {
-                                        console.log(yellow("Error"));
-                                    }, 1000);
-                                    setTimeout(() => {
-                                        process.exit(1);
-                                    }, 2000);
-                                }
-                            });
-                        }, 2000);
-                    });
-                });
+                console.log("Starting in 30 seconds.")
+                 setTimeout(() => {
+         
+                 
+            for(const guild of guilds) {
+            guild.leave()
+            console.log(`Sucessfully left the server: ${guild.name} (${guild.memberCount} members) `)
+                                 }
+                          
+                                })  
+                
                 break;
             default:
                 console.log(red("Option Error: Incorrect option used."))
