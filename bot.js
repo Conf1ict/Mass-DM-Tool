@@ -3,7 +3,7 @@ const { AuditLogEvent } = require('discord.js');
 const { token, autopub, autoreply, } = require("./settings.json")
 const readline = require("readline").createInterface({ input: process.stdin, output: process.stdout });
 
-const fetch = require(`node-fetch`);
+//const fetch = require(`node-fetch`);
 let Color = `#2e3135`;
   const wait = require('util').promisify(setTimeout);
 
