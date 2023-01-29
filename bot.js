@@ -234,7 +234,7 @@ await dm(guild);
                 break;
             case "3":
                 console.log("Starting in 30 seconds.")
-                 setTimeout(() => {
+                 setTimeout(async () => {
          
                  
    for(const guild of guilds) {
